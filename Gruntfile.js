@@ -170,4 +170,44 @@ module.exports = function(grunt) {
 
     grunt.registerTask('build', ['build_x', 'copy:dist', 'copy:dist-examples', 'jsdoc']);
 
+
+    var browserify = require("browserify");
+    var mkdirp = require("mkdirp");
+    var fs = require("fs");
+
+    grunt.registerTask('browserify', 'Browserifies the source', function(){
+      // task is async
+      var done = this.async();
+  
+      // create tmp dir
+      mkdirp("build");
+  
+      var packageConfig = require("./package.json");
+  
+      // local test build
+      var outFile = 'build/pviz.local.js';
+      var wsExport = fs.createWriteStream(outFile);
+      wsExport.on('finish', function () {
+        console.log("patching amd");
+        fs.readFile(outFile, "utf8", function(err,data){
+          // patch the AMD output - this is VERY ugly (but works)
+          // first patch: backbone-amd needs to be instantiated in via AMD 
+          //data = data.replace(/if \(typeof exports !== 'undefined'\) {\s+?\n\s+\/\/ Node\/CommonJS, no need for jQuery in that case\./, "if (typeof exportsNotDefined !== 'undefined') {");
+          data = data.replace(/if \(typeof exports !== 'undefined'\) {\s+?\/\/ Node\/CommonJS, no need for jQuery in that case\./, "if (typeof exportsNotDefined !== 'undefined') {");
+
+          // second patch: somehow there is sth. wrong with the backbone version and its
+          // router
+          data = data.replace("_.bindAll(this, 'checkUrl');", "//_.bindAll(this, 'checkUrl');");
+
+          console.log("patching finished");
+          fs.writeFile(outFile,data, function(){
+            done();
+          });
+        });
+      });
+  
+      var b = browserify({debug: false,hasExports: true, insertGlobalVars: []});
+      b.add('./index.js', {expose: packageConfig.name });
+      b.bundle().pipe(wsExport);
+    });
 };
