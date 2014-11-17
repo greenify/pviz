@@ -5,7 +5,7 @@ define(
      @author Kiran Mukhyala
      @copyright 2013,  Bioinformatics & Computational Biology Department, Genentech Inc.
      */
-    ['underscore', 'pviz/models/SeqEntry', 'pviz/models/PositionedFeature'],
+    ['underscore', '../models/SeqEntry', '../models/PositionedFeature'],
 
     function (_, SeqEntry, PositionedFeature) {
         /**

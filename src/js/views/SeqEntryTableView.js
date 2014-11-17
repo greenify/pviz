@@ -5,7 +5,7 @@ define(
      @author Kiran Mukhyala
      @copyright 2013,  Bioinformatics & Computational Biology Department, Genentech Inc.
      */
-    ['jquery', 'underscore', 'backbone', 'pviz/services/FeatureManager'], function ($, _, Backbone, FeatureManager) {
+    ['jquery', 'underscore', 'backbone', '../services/FeatureManager'], function ($, _, Backbone, FeatureManager) {
         /**
          * @class SeqEntryTableView just a dummy text table view of features
          * @constructor

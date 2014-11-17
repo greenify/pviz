@@ -6,7 +6,7 @@ define(
      @copyright 2013,  Bioinformatics & Computational Biology Department, Genentech Inc.
      */
 
-    ['underscore', 'pviz/models/SeqEntry', 'pviz/models/PositionedFeature'], function (_, SeqEntry, PositionedFeature) {
+    ['underscore', '../models/SeqEntry', '../models/PositionedFeature'], function (_, SeqEntry, PositionedFeature) {
         /**
          * A service to read a fast file, enhanced with  PSI/PEFF annotation
          @constructor

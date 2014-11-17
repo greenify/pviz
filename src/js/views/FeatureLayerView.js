@@ -6,7 +6,7 @@ define(
      @copyright 2013,  Bioinformatics & Computational Biology Department, Genentech Inc.
      */
 
-    ['underscore', 'backbone', 'pviz/services/IconFactory', './FeatureDisplayer'], function (_, bb, iconFactory, featureDisplayer) {
+    ['underscore', 'backbone', '../services/IconFactory', './FeatureDisplayer'], function (_, bb, iconFactory, featureDisplayer) {
         /**
          * @class  FeatureLayerView handles the view of one feature layer
          * @constructor

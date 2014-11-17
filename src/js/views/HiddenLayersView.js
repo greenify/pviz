@@ -5,7 +5,7 @@ define(
      @author Kiran Mukhyala
      @copyright 2013,  Bioinformatics & Computational Biology Department, Genentech Inc.
      */
-    ['underscore', 'backbone', 'd3', 'pviz/collections/FeatureLayerCollection', 'pviz/services/IconFactory'], function (_, bb, d3, FeatureLayerCollection, iconFactory) {
+    ['underscore', 'backbone', 'd3', '../collections/FeatureLayerCollection', '../services/IconFactory'], function (_, bb, d3, FeatureLayerCollection, iconFactory) {
         /**
          * HiddenLayersView the minimized FeatureLayer.
          * @constructor

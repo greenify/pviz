@@ -6,7 +6,7 @@ define(
      @copyright 2013,  Bioinformatics & Computational Biology Department, Genentech Inc.
      */
 
-    ['jquery', 'underscore', 'backbone', 'd3', 'pviz/services/FeatureManager', './FeatureDisplayer', './SeqEntryViewport', 'pviz/models/FeatureLayer', './FeatureLayerView', './HiddenLayersView', './DetailsPane', 'text!pviz_templates/seq-entry-annot-interactive.html'],
+    ['jquery', 'underscore', 'backbone', 'd3', '../services/FeatureManager', './FeatureDisplayer', './SeqEntryViewport', '../models/FeatureLayer', './FeatureLayerView', './HiddenLayersView', './DetailsPane', 'text!pviz_templates/seq-entry-annot-interactive.html'],
     function ($, _, Backbone, d3, featureManager, featureDisplayer, SeqEntryViewport, FeatureLayer, FeatureLayerView, HiddenLayersView, DetailsPane, tmpl) {
         /**
          * @class SeqEntryAnnotInteractiveView is the main interactive viewer for one SeqEntry
