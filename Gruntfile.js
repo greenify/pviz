@@ -176,6 +176,7 @@ module.exports = function(grunt) {
   var fs = require("fs");
   var stringify = require('stringify');
   var textify = require('./src/textify');
+  var derequire = require("derequire");
 
   grunt.registerTask('browserify', 'Browserifies the source', function(){
     // task is async
@@ -190,9 +191,18 @@ module.exports = function(grunt) {
       if(++count == 2) done()
     }
 
-    var ws = fs.createWriteStream('build/pviz.js');
+    // derequiring is needed as we need to apply the AMD transforms
+    // and we can't simply export a browserify bundle
+    var exportFile = 'build/pviz.export.js';
+    var ws = fs.createWriteStream(exportFile);
     ws.on('finish', function () {
-      complete();
+      fs.readFile(exportFile, "utf8", function(err,file){
+        console.log("derequiring the bundle. this might take a bit");
+        file = derequire(file);
+        fs.writeFile(exportFile, file, function(){
+          complete();
+        });
+      });
     });
 
     var packageConfig = require("./package.json");
