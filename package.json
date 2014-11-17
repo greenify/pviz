@@ -1,6 +1,10 @@
 {
   "name": "pviz",
   "version": "0.1.10",
+  "repository": {
+    "type": "git",
+    "url": "github.com/genentech/pviz"
+  },
   "dependencies": {
     "backbone-node": "^1.0.0",
     "bootstrap": "^3.3.1",
