@@ -1,9 +1,10 @@
 {
   "name": "pviz",
-  "version": "0.1.12-1",
+  "version": "0.1.12-2",
+  "description": "pViz.js is a protein sequence features viewer for modern browsers",
   "repository": {
     "type": "git",
-    "url": "github.com/greenify/pviz"
+    "url": "github.com/genentech/pviz"
   },
   "dependencies": {
     "underscore": "^1.4.4"
