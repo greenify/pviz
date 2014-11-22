@@ -1,9 +1,9 @@
 {
   "name": "pviz",
-  "version": "0.1.10",
+  "version": "0.1.12-1",
   "repository": {
     "type": "git",
-    "url": "github.com/genentech/pviz"
+    "url": "github.com/greenify/pviz"
   },
   "dependencies": {
     "underscore": "^1.4.4"

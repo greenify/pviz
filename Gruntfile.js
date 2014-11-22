@@ -175,7 +175,30 @@ module.exports = function(grunt) {
     var mkdirp = require("mkdirp");
     var fs = require("fs");
 
-    grunt.registerTask('browserify', 'Browserifies the source', function(){
+    grunt.registerTask('patch-pviz', 'Makes pviz work for node', function(){
+      var done = this.async();
+      console.log("patching amd");
+
+      var outFile = 'dist/pviz-bundle.js';
+      var modFile = 'dist/pviz.mod.js';
+        fs.readFile(outFile, "utf8", function(err,data){
+          // patch the AMD output - this is VERY ugly (but works)
+          // first patch: backbone-amd needs to be instantiated in via AMD 
+          //data = data.replace(/if \(typeof exports !== 'undefined'\) {\s+?\n\s+\/\/ Node\/CommonJS, no need for jQuery in that case\./, "if (typeof exportsNotDefined !== 'undefined') {");
+          data = data.replace(/if \(typeof exports !== 'undefined'\) {\s+?\/\/ Node\/CommonJS, no need for jQuery in that case\./, "if (typeof exportsNotDefined !== 'undefined') {");
+
+          // second patch: somehow there is sth. wrong with the backbone version and its
+          // router
+          data = data.replace("_.bindAll(this, 'checkUrl');", "//_.bindAll(this, 'checkUrl');");
+
+          console.log("patching finished");
+          fs.writeFile(modFile,data, function(){
+            done();
+          });
+        });
+    });
+
+    grunt.registerTask('build-browser', function(){
       // task is async
       var done = this.async();
   
@@ -188,26 +211,12 @@ module.exports = function(grunt) {
       var outFile = 'build/pviz.local.js';
       var wsExport = fs.createWriteStream(outFile);
       wsExport.on('finish', function () {
-        console.log("patching amd");
-        fs.readFile(outFile, "utf8", function(err,data){
-          // patch the AMD output - this is VERY ugly (but works)
-          // first patch: backbone-amd needs to be instantiated in via AMD 
-          //data = data.replace(/if \(typeof exports !== 'undefined'\) {\s+?\n\s+\/\/ Node\/CommonJS, no need for jQuery in that case\./, "if (typeof exportsNotDefined !== 'undefined') {");
-          data = data.replace(/if \(typeof exports !== 'undefined'\) {\s+?\/\/ Node\/CommonJS, no need for jQuery in that case\./, "if (typeof exportsNotDefined !== 'undefined') {");
-
-          // second patch: somehow there is sth. wrong with the backbone version and its
-          // router
-          data = data.replace("_.bindAll(this, 'checkUrl');", "//_.bindAll(this, 'checkUrl');");
-
-          console.log("patching finished");
-          fs.writeFile(outFile,data, function(){
-            done();
-          });
-        });
+        done();
       });
   
       var b = browserify({debug: false,hasExports: true, insertGlobalVars: []});
       b.add('./index.js', {expose: packageConfig.name });
       b.bundle().pipe(wsExport);
     });
+    grunt.registerTask('browserify', ['build_x','copy:dist', 'patch-pviz','build-browser']);
 };

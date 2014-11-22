@@ -1,2 +1,2 @@
 _ = require("underscore");
-module.exports = require("./build/pviz-bundle.js");
+module.exports = require("./dist/pviz.mod.js");
